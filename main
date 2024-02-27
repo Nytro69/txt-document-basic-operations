@@ -1,0 +1,55 @@
+class Stack:
+    def __init__(self):
+        self.data = []
+
+    def push(self, item):
+        self.data.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.data.pop()
+        else:
+            print("Stack is empty.")
+            return None
+
+    def is_empty(self):
+        return len(self.data) == 0
+
+
+def main():
+    undo_stack = Stack()
+    redo_stack = Stack()
+
+    while True:
+        print("1. Write text\n2. Undo\n3. Redo\n4. Print Text\n5. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            text = input("Enter text: ")
+            undo_stack.push(text)
+            redo_stack = Stack()  # Clear redo stack after new text
+
+        elif choice == "2":
+            if not undo_stack.is_empty():
+                redo_stack.push(undo_stack.pop())
+            else:
+                print("Nothing to undo.")
+
+        elif choice == "3":
+            if not redo_stack.is_empty():
+                undo_stack.push(redo_stack.pop())
+            else:
+                print("Nothing to redo.")
+
+        elif choice == "4":
+            print("All text:")
+            for item in undo_stack.data:
+                print(item)
+
+        elif choice == "5":
+            break
+
+        else:
+            print("Invalid choice. Please choose 1, 2, 3, 4, or 5.")
+
+main()
